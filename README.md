@@ -16,7 +16,7 @@ To add a screenshot, create an `assets/images` folder in your repository and upl
 
 
 ## Credits
-- https://day.js.org/en/
-- https://jqueryui.com/
+- https://day.js.org/en
 - AskBCS Learning Assistant
 - OpenWeathermap.org
+- Worked with tutor Meg Meyers 
