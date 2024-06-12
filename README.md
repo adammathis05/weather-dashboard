@@ -12,7 +12,7 @@ Provide instructions and examples for use. Include screenshots as needed.
 
 To add a screenshot, create an `assets/images` folder in your repository and upload your screenshot to it. Then, using the relative filepath, add it to your README using the following syntax:
 
-![image of deployed site](https://github.com/adammathis05/task-board/blob/main/assets/Task%20Board%20Screenshot.png)
+![image of deployed site](https://github.com/adammathis05/weather-dashboard/blob/main/assets/Screenshot%202024-06-11%20at%2022.04.15.png)
 
 
 ## Credits
