@@ -1,13 +1,51 @@
 const APIKey = "3d408f1254b97eca15a0c154d37aa7ae";
+const cityHistory = JSON.parse(localStorage.getItem("history")) || [];
+
+
+
+function saveCity(city) {
+    if (cityHistory.includes(city))
+        return;
+    cityHistory.push(city);
+    localStorage.setItem("history", JSON.stringify(cityHistory));
+    renderCityHistory();
+}
+
+renderCityHistory();
+
+function renderCityHistory() {
+    const historyEl = document.querySelector("#history");
+    historyEl.innerHTML = "";
+    cityHistory.forEach(city => {
+        const btn = document.createElement("button");
+        btn.textContent = city;
+        btn.onclick = handleHistorySubmit;
+        historyEl.append(btn);
+    })
+}
+
+function handleHistorySubmit(event) {
+    getApi(event.target.textContent);
+}
 
 function getApi(city) {
     const apiUrlWeather = `https://api.openweathermap.org/data/2.5/weather?appid=${APIKey}&q=${city}&units=imperial`;
 
-    fetch(apiUrlWeather).then(response => response.json()).then(data => {
+    fetch(apiUrlWeather).then(response => {
+        console.log(response);
+        if (!response.ok) {
+            throw new Error("City Not Found");
+        }
+        else {
+            return response.json();
+        }
+        
+    }).then(data => {
         console.log(data); 
+        saveCity(data.name);
         const {lat,lon}=data.coord;
         renderWeather(data);
-    fetch(`https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=3d408f1254b97eca15a0c154d37aa7ae`)
+    fetch(`https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=3d408f1254b97eca15a0c154d37aa7ae&units=imperial`)
         .then(function (response) {
             console.log(response);
             return response.json();
@@ -16,7 +54,9 @@ function getApi(city) {
             console.log(data);
             renderForecast(data);
         })
-    })
+    }) .catch(error => {
+        alert(error.message);
+    }) 
 }
 
 function renderWeather(data) {
@@ -44,7 +84,8 @@ function renderForecast(data) {
         tempEl.textContent = data.list[i].main.temp;
         humEl.textContent = data.list[i].main.humidity;
         windEl.textContent = data.list[i].wind.speed;
-        // card.append 
+        card.append(dateEl, iconEl, tempEl, humEl, windEl);
+        forecastEl.append(card); 
 
 
         //append cards to div on line 28
